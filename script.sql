@@ -41,6 +41,22 @@ create table Campeonato(
 	Nome varchar(100) not null,
 	Inicio date not null,
 	Premiacao decimal(10, 2) not null,
-	Logo image,
-	Campeao int references Clube(ID)
+	Logo image null,
+	Campeao int references Clube(ID) null
+);
+go
+
+create table Inscricao(
+	ID int identity primary key,
+	ClubeID int references Clube(ID) not null,
+	CampeonatoID int references Campeonato(ID) not null,
+);
+go
+
+create table Partida(
+	ID int identity primary key,
+	Clube1ID int references Clube(ID) not null,
+	Clube2ID int references Clube(ID) not null,
+	Placar1 int not null,
+	Placar2 int not null
 );
