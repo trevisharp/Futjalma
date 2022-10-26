@@ -1,0 +1,543 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FutjalmaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Campeonato">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Inicio" Type="date" Nullable="false" />
+          <Property Name="Premiacao" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Logo" Type="image" />
+          <Property Name="Campeao" Type="int" />
+        </EntityType>
+        <EntityType Name="Clube">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Fundacao" Type="date" Nullable="false" />
+          <Property Name="Escudo" Type="image" />
+        </EntityType>
+        <EntityType Name="Contratacao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JogadorID" Type="int" Nullable="false" />
+          <Property Name="ClubeID" Type="int" Nullable="false" />
+          <Property Name="Camisa" Type="int" Nullable="false" />
+          <Property Name="Fechamento" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Inscricao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClubeID" Type="int" Nullable="false" />
+          <Property Name="CampeonatoID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Jogador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="120" Nullable="false" />
+          <Property Name="DataNascimento" Type="date" Nullable="false" />
+          <Property Name="Foto" Type="image" />
+        </EntityType>
+        <EntityType Name="Partida">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CampeonatoID" Type="int" Nullable="false" />
+          <Property Name="Clube1ID" Type="int" Nullable="false" />
+          <Property Name="Clube2ID" Type="int" Nullable="false" />
+          <Property Name="Placar1" Type="int" Nullable="false" />
+          <Property Name="Placar2" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK__Campeonat__Campe__2C3393D0">
+          <End Role="Clube" Type="Self.Clube" Multiplicity="0..1" />
+          <End Role="Campeonato" Type="Self.Campeonato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clube">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Campeonato">
+              <PropertyRef Name="Campeao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Contratac__Clube__29572725">
+          <End Role="Clube" Type="Self.Clube" Multiplicity="1" />
+          <End Role="Contratacao" Type="Self.Contratacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clube">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Contratacao">
+              <PropertyRef Name="ClubeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Contratac__Jogad__286302EC">
+          <End Role="Jogador" Type="Self.Jogador" Multiplicity="1" />
+          <End Role="Contratacao" Type="Self.Contratacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jogador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Contratacao">
+              <PropertyRef Name="JogadorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Inscricao__Campe__300424B4">
+          <End Role="Campeonato" Type="Self.Campeonato" Multiplicity="1" />
+          <End Role="Inscricao" Type="Self.Inscricao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campeonato">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Inscricao">
+              <PropertyRef Name="CampeonatoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Inscricao__Clube__2F10007B">
+          <End Role="Clube" Type="Self.Clube" Multiplicity="1" />
+          <End Role="Inscricao" Type="Self.Inscricao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clube">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Inscricao">
+              <PropertyRef Name="ClubeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Partida__Campeon__32E0915F">
+          <End Role="Campeonato" Type="Self.Campeonato" Multiplicity="1" />
+          <End Role="Partida" Type="Self.Partida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campeonato">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Partida">
+              <PropertyRef Name="CampeonatoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Partida__Clube1I__33D4B598">
+          <End Role="Clube" Type="Self.Clube" Multiplicity="1" />
+          <End Role="Partida" Type="Self.Partida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clube">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Partida">
+              <PropertyRef Name="Clube1ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Partida__Clube2I__34C8D9D1">
+          <End Role="Clube" Type="Self.Clube" Multiplicity="1" />
+          <End Role="Partida" Type="Self.Partida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clube">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Partida">
+              <PropertyRef Name="Clube2ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FutjalmaModelStoreContainer">
+          <EntitySet Name="Campeonato" EntityType="Self.Campeonato" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clube" EntityType="Self.Clube" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contratacao" EntityType="Self.Contratacao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Inscricao" EntityType="Self.Inscricao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Jogador" EntityType="Self.Jogador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Partida" EntityType="Self.Partida" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Campeonat__Campe__2C3393D0" Association="Self.FK__Campeonat__Campe__2C3393D0">
+            <End Role="Clube" EntitySet="Clube" />
+            <End Role="Campeonato" EntitySet="Campeonato" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Contratac__Clube__29572725" Association="Self.FK__Contratac__Clube__29572725">
+            <End Role="Clube" EntitySet="Clube" />
+            <End Role="Contratacao" EntitySet="Contratacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Contratac__Jogad__286302EC" Association="Self.FK__Contratac__Jogad__286302EC">
+            <End Role="Jogador" EntitySet="Jogador" />
+            <End Role="Contratacao" EntitySet="Contratacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Inscricao__Campe__300424B4" Association="Self.FK__Inscricao__Campe__300424B4">
+            <End Role="Campeonato" EntitySet="Campeonato" />
+            <End Role="Inscricao" EntitySet="Inscricao" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Inscricao__Clube__2F10007B" Association="Self.FK__Inscricao__Clube__2F10007B">
+            <End Role="Clube" EntitySet="Clube" />
+            <End Role="Inscricao" EntitySet="Inscricao" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Partida__Campeon__32E0915F" Association="Self.FK__Partida__Campeon__32E0915F">
+            <End Role="Campeonato" EntitySet="Campeonato" />
+            <End Role="Partida" EntitySet="Partida" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Partida__Clube1I__33D4B598" Association="Self.FK__Partida__Clube1I__33D4B598">
+            <End Role="Clube" EntitySet="Clube" />
+            <End Role="Partida" EntitySet="Partida" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Partida__Clube2I__34C8D9D1" Association="Self.FK__Partida__Clube2I__34C8D9D1">
+            <End Role="Clube" EntitySet="Clube" />
+            <End Role="Partida" EntitySet="Partida" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FutjalmaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Campeonato">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Inicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Premiacao" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Logo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Campeao" Type="Int32" />
+          <NavigationProperty Name="Clube" Relationship="Self.FK__Campeonat__Campe__2C3393D0" FromRole="Campeonato" ToRole="Clube" />
+          <NavigationProperty Name="Inscricao" Relationship="Self.FK__Inscricao__Campe__300424B4" FromRole="Campeonato" ToRole="Inscricao" />
+          <NavigationProperty Name="Partida" Relationship="Self.FK__Partida__Campeon__32E0915F" FromRole="Campeonato" ToRole="Partida" />
+        </EntityType>
+        <EntityType Name="Clube">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fundacao" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Escudo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Campeonato" Relationship="Self.FK__Campeonat__Campe__2C3393D0" FromRole="Clube" ToRole="Campeonato" />
+          <NavigationProperty Name="Contratacao" Relationship="Self.FK__Contratac__Clube__29572725" FromRole="Clube" ToRole="Contratacao" />
+          <NavigationProperty Name="Inscricao" Relationship="Self.FK__Inscricao__Clube__2F10007B" FromRole="Clube" ToRole="Inscricao" />
+          <NavigationProperty Name="Partida" Relationship="Self.FK__Partida__Clube1I__33D4B598" FromRole="Clube" ToRole="Partida" />
+          <NavigationProperty Name="Partida1" Relationship="Self.FK__Partida__Clube2I__34C8D9D1" FromRole="Clube" ToRole="Partida" />
+        </EntityType>
+        <EntityType Name="Contratacao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JogadorID" Type="Int32" Nullable="false" />
+          <Property Name="ClubeID" Type="Int32" Nullable="false" />
+          <Property Name="Camisa" Type="Int32" Nullable="false" />
+          <Property Name="Fechamento" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Clube" Relationship="Self.FK__Contratac__Clube__29572725" FromRole="Contratacao" ToRole="Clube" />
+          <NavigationProperty Name="Jogador" Relationship="Self.FK__Contratac__Jogad__286302EC" FromRole="Contratacao" ToRole="Jogador" />
+        </EntityType>
+        <EntityType Name="Inscricao">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClubeID" Type="Int32" Nullable="false" />
+          <Property Name="CampeonatoID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Campeonato" Relationship="Self.FK__Inscricao__Campe__300424B4" FromRole="Inscricao" ToRole="Campeonato" />
+          <NavigationProperty Name="Clube" Relationship="Self.FK__Inscricao__Clube__2F10007B" FromRole="Inscricao" ToRole="Clube" />
+        </EntityType>
+        <EntityType Name="Jogador">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DataNascimento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Foto" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Contratacao" Relationship="Self.FK__Contratac__Jogad__286302EC" FromRole="Jogador" ToRole="Contratacao" />
+        </EntityType>
+        <EntityType Name="Partida">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CampeonatoID" Type="Int32" Nullable="false" />
+          <Property Name="Clube1ID" Type="Int32" Nullable="false" />
+          <Property Name="Clube2ID" Type="Int32" Nullable="false" />
+          <Property Name="Placar1" Type="Int32" Nullable="false" />
+          <Property Name="Placar2" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Campeonato" Relationship="Self.FK__Partida__Campeon__32E0915F" FromRole="Partida" ToRole="Campeonato" />
+          <NavigationProperty Name="Clube" Relationship="Self.FK__Partida__Clube1I__33D4B598" FromRole="Partida" ToRole="Clube" />
+          <NavigationProperty Name="Clube1" Relationship="Self.FK__Partida__Clube2I__34C8D9D1" FromRole="Partida" ToRole="Clube" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK__Campeonat__Campe__2C3393D0">
+          <End Role="Clube" Type="Self.Clube" Multiplicity="0..1" />
+          <End Role="Campeonato" Type="Self.Campeonato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clube">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Campeonato">
+              <PropertyRef Name="Campeao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Inscricao__Campe__300424B4">
+          <End Role="Campeonato" Type="Self.Campeonato" Multiplicity="1" />
+          <End Role="Inscricao" Type="Self.Inscricao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campeonato">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Inscricao">
+              <PropertyRef Name="CampeonatoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Partida__Campeon__32E0915F">
+          <End Role="Campeonato" Type="Self.Campeonato" Multiplicity="1" />
+          <End Role="Partida" Type="Self.Partida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campeonato">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Partida">
+              <PropertyRef Name="CampeonatoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Contratac__Clube__29572725">
+          <End Role="Clube" Type="Self.Clube" Multiplicity="1" />
+          <End Role="Contratacao" Type="Self.Contratacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clube">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Contratacao">
+              <PropertyRef Name="ClubeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Inscricao__Clube__2F10007B">
+          <End Role="Clube" Type="Self.Clube" Multiplicity="1" />
+          <End Role="Inscricao" Type="Self.Inscricao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clube">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Inscricao">
+              <PropertyRef Name="ClubeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Partida__Clube1I__33D4B598">
+          <End Role="Clube" Type="Self.Clube" Multiplicity="1" />
+          <End Role="Partida" Type="Self.Partida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clube">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Partida">
+              <PropertyRef Name="Clube1ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Partida__Clube2I__34C8D9D1">
+          <End Role="Clube" Type="Self.Clube" Multiplicity="1" />
+          <End Role="Partida" Type="Self.Partida" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clube">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Partida">
+              <PropertyRef Name="Clube2ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Contratac__Jogad__286302EC">
+          <End Role="Jogador" Type="Self.Jogador" Multiplicity="1" />
+          <End Role="Contratacao" Type="Self.Contratacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Jogador">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Contratacao">
+              <PropertyRef Name="JogadorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FutjalmaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Campeonato" EntityType="Self.Campeonato" />
+          <EntitySet Name="Clube" EntityType="Self.Clube" />
+          <EntitySet Name="Contratacao" EntityType="Self.Contratacao" />
+          <EntitySet Name="Inscricao" EntityType="Self.Inscricao" />
+          <EntitySet Name="Jogador" EntityType="Self.Jogador" />
+          <EntitySet Name="Partida" EntityType="Self.Partida" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="FK__Campeonat__Campe__2C3393D0" Association="Self.FK__Campeonat__Campe__2C3393D0">
+            <End Role="Clube" EntitySet="Clube" />
+            <End Role="Campeonato" EntitySet="Campeonato" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Inscricao__Campe__300424B4" Association="Self.FK__Inscricao__Campe__300424B4">
+            <End Role="Campeonato" EntitySet="Campeonato" />
+            <End Role="Inscricao" EntitySet="Inscricao" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Partida__Campeon__32E0915F" Association="Self.FK__Partida__Campeon__32E0915F">
+            <End Role="Campeonato" EntitySet="Campeonato" />
+            <End Role="Partida" EntitySet="Partida" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Contratac__Clube__29572725" Association="Self.FK__Contratac__Clube__29572725">
+            <End Role="Clube" EntitySet="Clube" />
+            <End Role="Contratacao" EntitySet="Contratacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Inscricao__Clube__2F10007B" Association="Self.FK__Inscricao__Clube__2F10007B">
+            <End Role="Clube" EntitySet="Clube" />
+            <End Role="Inscricao" EntitySet="Inscricao" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Partida__Clube1I__33D4B598" Association="Self.FK__Partida__Clube1I__33D4B598">
+            <End Role="Clube" EntitySet="Clube" />
+            <End Role="Partida" EntitySet="Partida" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Partida__Clube2I__34C8D9D1" Association="Self.FK__Partida__Clube2I__34C8D9D1">
+            <End Role="Clube" EntitySet="Clube" />
+            <End Role="Partida" EntitySet="Partida" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Contratac__Jogad__286302EC" Association="Self.FK__Contratac__Jogad__286302EC">
+            <End Role="Jogador" EntitySet="Jogador" />
+            <End Role="Contratacao" EntitySet="Contratacao" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FutjalmaModelStoreContainer" CdmEntityContainer="FutjalmaEntities">
+          <EntitySetMapping Name="Campeonato">
+            <EntityTypeMapping TypeName="FutjalmaModel.Campeonato">
+              <MappingFragment StoreEntitySet="Campeonato">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Inicio" ColumnName="Inicio" />
+                <ScalarProperty Name="Premiacao" ColumnName="Premiacao" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="Campeao" ColumnName="Campeao" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clube">
+            <EntityTypeMapping TypeName="FutjalmaModel.Clube">
+              <MappingFragment StoreEntitySet="Clube">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Fundacao" ColumnName="Fundacao" />
+                <ScalarProperty Name="Escudo" ColumnName="Escudo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contratacao">
+            <EntityTypeMapping TypeName="FutjalmaModel.Contratacao">
+              <MappingFragment StoreEntitySet="Contratacao">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="JogadorID" ColumnName="JogadorID" />
+                <ScalarProperty Name="ClubeID" ColumnName="ClubeID" />
+                <ScalarProperty Name="Camisa" ColumnName="Camisa" />
+                <ScalarProperty Name="Fechamento" ColumnName="Fechamento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inscricao">
+            <EntityTypeMapping TypeName="FutjalmaModel.Inscricao">
+              <MappingFragment StoreEntitySet="Inscricao">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ClubeID" ColumnName="ClubeID" />
+                <ScalarProperty Name="CampeonatoID" ColumnName="CampeonatoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Jogador">
+            <EntityTypeMapping TypeName="FutjalmaModel.Jogador">
+              <MappingFragment StoreEntitySet="Jogador">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="DataNascimento" ColumnName="DataNascimento" />
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Partida">
+            <EntityTypeMapping TypeName="FutjalmaModel.Partida">
+              <MappingFragment StoreEntitySet="Partida">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CampeonatoID" ColumnName="CampeonatoID" />
+                <ScalarProperty Name="Clube1ID" ColumnName="Clube1ID" />
+                <ScalarProperty Name="Clube2ID" ColumnName="Clube2ID" />
+                <ScalarProperty Name="Placar1" ColumnName="Placar1" />
+                <ScalarProperty Name="Placar2" ColumnName="Placar2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="FutjalmaModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

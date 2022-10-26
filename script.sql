@@ -61,3 +61,4 @@ create table Partida(
 	Placar1 int not null,
 	Placar2 int not null
 );
+go
