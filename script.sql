@@ -36,4 +36,11 @@ create table Contratacao(
 );
 go
 
-
+create table Campeonato(
+	ID int identity primary key,
+	Nome varchar(100) not null,
+	Inicio date not null,
+	Premiacao decimal(10, 2) not null,
+	Logo image,
+	Campeao int references Clube(ID)
+);
