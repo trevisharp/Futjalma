@@ -55,6 +55,7 @@ go
 
 create table Partida(
 	ID int identity primary key,
+	CampeonatoID int references Campeonato(ID) not null,
 	Clube1ID int references Clube(ID) not null,
 	Clube2ID int references Clube(ID) not null,
 	Placar1 int not null,
