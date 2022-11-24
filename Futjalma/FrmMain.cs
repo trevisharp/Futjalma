@@ -22,6 +22,17 @@ namespace Futjalma
             UcAddJogador component = new UcAddJogador();
             component.Dock = DockStyle.Fill;
             pnMain.Controls.Add(component);
+
+            pnMain.Controls.Clear();
+        }
+
+        private void atualizarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pnMain.Controls.Clear();
+
+            UcUpdateJogador component = new UcUpdateJogador();
+            component.Dock = DockStyle.Fill;
+            pnMain.Controls.Add(component);
         }
     }
 }
